@@ -36,7 +36,7 @@ def download_large_file_from_google_drive(file_id, destination):
 # Function to ensure the model is downloaded
 def download_model():
     model_file_id = '1DVMIbOppN2XlG38yV5l7AB_G0HhBHUyx'  # Replace with your file ID
-    output_path = 'final_model.h5'
+    output_path = 'breast_cancer_cnn_model.h5'
     if not os.path.exists(output_path):  # Check if the model is already downloaded
         with st.spinner("Downloading model..."):
             download_large_file_from_google_drive(model_file_id, output_path)
