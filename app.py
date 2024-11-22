@@ -1,19 +1,45 @@
 import os
-import gdown
+import requests
 import streamlit as st
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 
-# Function to download the model from Google Drive
+# Function to download large files from Google Drive
+def download_large_file_from_google_drive(file_id, destination):
+    # Base URL for Google Drive downloads
+    URL = "https://docs.google.com/uc?export=download"
+
+    # Start session
+    session = requests.Session()
+
+    # Initial request to get the confirmation token
+    response = session.get(URL, params={'id': file_id}, stream=True)
+    token = None
+    for key, value in response.cookies.items():
+        if key.startswith('download_warning'):
+            token = value
+            break
+
+    # If a token is found, use it to get the full download
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = session.get(URL, params=params, stream=True)
+
+    # Save the file to the destination
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(chunk_size=32768):
+            if chunk:
+                f.write(chunk)
+
+# Function to ensure the model is downloaded
 def download_model():
     model_file_id = '1DVMIbOppN2XlG38yV5l7AB_G0HhBHUyx'  # Replace with your file ID
-    model_url = f'https://drive.google.com/uc?export=download&id={model_file_id}'
     output_path = 'best_model.keras'
     if not os.path.exists(output_path):  # Check if the model is already downloaded
         with st.spinner("Downloading model..."):
-            gdown.download(model_url, output_path, quiet=False)
+            download_large_file_from_google_drive(model_file_id, output_path)
     return output_path
 
 # Load the model
