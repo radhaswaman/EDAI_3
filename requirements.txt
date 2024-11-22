@@ -5,3 +5,5 @@ numpy
 h5py
 gdown
 requests
+tensorflow==2.6
+keras==2.6
