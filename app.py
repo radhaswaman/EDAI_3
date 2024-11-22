@@ -3,10 +3,23 @@ import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing import image
 from PIL import Image
+import gdown
+import os
 
-# Load the trained model from the 'models' folder
-MODEL_PATH = 'models/final_model.h5'
-model = tf.keras.models.load_model(MODEL_PATH)
+
+# Function to download the model from Google Drive
+def download_model():
+    model_file_id = '1DVMIbOppN2XlG38yV5l7AB_G0HhBHUyx'  # Replace with your file ID
+    model_url = f'https://drive.google.com/uc?export=download&id={model_file_id}'
+    output_path = 'best_model.keras'
+    if not os.path.exists(output_path):  # Check if the model is already downloaded
+        with st.spinner("Downloading model..."):
+            gdown.download(model_url, output_path, quiet=False)
+    return output_path
+
+# Example usage
+MODEL_PATH = download_model()
+print(f"Model downloaded to: {MODEL_PATH}")
 
 # Preprocessing function for uploaded images
 def load_and_preprocess_image(img):
@@ -22,7 +35,7 @@ def predict_image(img_array):
 
 # Streamlit App
 st.title("Breast Cancer Image Classification")
-st.write("Upload an image to classify it as *Malignant* or *Benign*.")
+st.write("Upload an image to classify it as Malignant or Benign.")
 
 uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
 
@@ -38,6 +51,6 @@ if uploaded_file is not None:
 
     # Display result
     if prediction == 1:
-        st.write("*Prediction: Malignant*")
+        st.write("Prediction: Malignant")
     else:
-        st.write("*Prediction: Benign*")
+        st.write("Prediction: Benign")
