@@ -4,8 +4,8 @@ import numpy as np
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 
-# Load the trained model
-MODEL_PATH = 'final_model.h5'
+# Load the trained model from the 'models' folder
+MODEL_PATH = 'models/final_model.h5'
 model = tf.keras.models.load_model(MODEL_PATH)
 
 # Preprocessing function for uploaded images
