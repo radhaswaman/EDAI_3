@@ -1,11 +1,10 @@
+import os
+import gdown
 import streamlit as st
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing import image
 from PIL import Image
-import gdown
-import os
-
 
 # Function to download the model from Google Drive
 def download_model():
@@ -17,9 +16,9 @@ def download_model():
             gdown.download(model_url, output_path, quiet=False)
     return output_path
 
-# Example usage
+# Load the model
 MODEL_PATH = download_model()
-print(f"Model downloaded to: {MODEL_PATH}")
+model = tf.keras.models.load_model(MODEL_PATH)  # Ensure the model is loaded globally
 
 # Preprocessing function for uploaded images
 def load_and_preprocess_image(img):
@@ -30,7 +29,7 @@ def load_and_preprocess_image(img):
 
 # Function to make predictions
 def predict_image(img_array):
-    prediction = model.predict(img_array)
+    prediction = model.predict(img_array)  # Model must be defined here
     return np.round(prediction[0][0])
 
 # Streamlit App
@@ -42,7 +41,7 @@ uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg
 if uploaded_file is not None:
     # Display the uploaded image
     img = Image.open(uploaded_file)
-    st.image(img, caption="Uploaded Image", use_column_width=True)
+    st.image(img, caption="Uploaded Image", use_container_width=True)
 
     # Preprocess and predict
     st.write("Classifying...")
