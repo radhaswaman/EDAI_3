@@ -1,5 +1,6 @@
 # Breast Cancer Detection and Prediction Using CNN and Machine Learning
 ![Project Overview](https://github.com/radhaswaman/EDAI_3/blob/main/Streamlit_BreastCancer_IMG1.jpg?raw=true)
+![Project Overview](https://github.com/radhaswaman/EDAI_3/blob/main/Streamlit_BreastCancer_IMG2.jpg?raw=true)
 
 ## Overview
 This project combines machine learning and deep learning techniques to detect and predict breast cancer. It includes a machine learning pipeline using **Random Forest** for tabular data analysis and a **Convolutional Neural Network (CNN)** for classifying medical images into three categories: benign, malignant, and normal.
